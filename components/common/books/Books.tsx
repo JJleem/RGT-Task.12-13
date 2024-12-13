@@ -85,7 +85,9 @@ const Books: React.FC<BooksProps> = ({ filterBooks }: BooksProps) => {
 
   // Pagination 계산
   const totalPages = Math.ceil(filterBooks.length / booksPerPage);
-  const currentBooks = filterBooks.slice(
+
+  const reversedBooks = [...filterBooks].reverse(); // 역순으로 정렬
+  const currentBooks = reversedBooks.slice(
     (currentPage - 1) * booksPerPage,
     currentPage * booksPerPage
   );

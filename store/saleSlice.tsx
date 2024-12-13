@@ -50,17 +50,23 @@ const salesSlice = createSlice({
         saveToLocalStorage(state.sales);
       }
     },
+    removeSale: (state, action: PayloadAction<string>) => {
+      state.sales = state.sales.filter((sale) => sale.id !== action.payload);
+      saveToLocalStorage(state.sales);
+    },
   },
 });
 
 // 로컬 스토리지에 상태 저장
 const saveToLocalStorage = (sales: Sale[]) => {
+  if (typeof window === "undefined") return []; // 서버
   try {
     localStorage.setItem("sales", JSON.stringify(sales));
   } catch (error) {
     console.error("Failed to save to local storage", error);
+    return [];
   }
 };
 
-export const { addSale, updateSale } = salesSlice.actions;
+export const { addSale, updateSale, removeSale } = salesSlice.actions;
 export default salesSlice.reducer;

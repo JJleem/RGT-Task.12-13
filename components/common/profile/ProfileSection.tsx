@@ -26,17 +26,10 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ className }) => {
       <div className="w-full border border-AlmondPeach h-[400px] flex flex-col justify-between items-center py-9 gap-3 relative md:pl-4 md:pr-4 xs:pl-5 xs:pr-5">
         <div className="w-full flex flex-col justify-center items-center gap-6 ">
           <div className="lg:w-[180px] lg:h-[180px] bg-NauticalBlue rounded-full sm:w-[100px] sm:h-[100px] xxs:w-[150px] xxs:h-[150px]"></div>
-          <span className="text-AlmondPeach">Manager</span>
-          <p className="text-sm text-AlmondPeach">RGT 온라인 서점 Manager</p>
+          <span className="text-black">Manager</span>
+          <p className="text-sm text-black">RGT 온라인 서점 Manager</p>
         </div>
-        <div className="w-full flex justify-center items-center gap-3 ">
-          <Link
-            href="/post"
-            className="w-[100px] bg-Baltic text-white text-sm rounded-md py-1 text-center cursor-pointer hover:bg-NauticalBlue"
-          >
-            책 관리
-          </Link>
-        </div>
+        <div className="w-full flex justify-center items-center gap-3 "></div>
       </div>
       <div className=" flex sm:flex sm:flex-col sm:w-full sm:items-center xs:flex-col xs:gap-10   sm:gap-[24px]">
         <div className="w-full border-b border-AlmondPeach ">

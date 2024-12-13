@@ -23,22 +23,69 @@ interface BooksState {
   list: BookData[];
 }
 
-const initialState: BooksState = {
-  list: [],
+// 로컬 스토리지에서 상태 로드
+const loadBooksFromLocalStorage = (): BookData[] => {
+  if (typeof window === "undefined") return []; // 서버에서 실행 시 빈 배열 반환
+  try {
+    const data = localStorage.getItem("books");
+    return data ? JSON.parse(data) : [];
+  } catch (error) {
+    console.error("Failed to load books from local storage", error);
+    return [];
+  }
 };
 
+const initialState: BooksState = {
+  list: loadBooksFromLocalStorage(),
+};
+
+// Redux slice 정의
 const booksSlice = createSlice({
   name: "books",
   initialState,
   reducers: {
     setBooks: (state, action: PayloadAction<BookData[]>) => {
       state.list = action.payload;
+      saveBooksToLocalStorage(state.list); // 로컬 스토리지에 저장
     },
-    clearBooks: (state) => {
-      state.list = [];
+    addBook: (state, action: PayloadAction<BookData>) => {
+      state.list.push(action.payload);
+      saveBooksToLocalStorage(state.list); // 로컬 스토리지에 저장
+    },
+    removeBook: (state, action: PayloadAction<string>) => {
+      state.list = state.list.filter((book) => book.id !== action.payload);
+      saveBooksToLocalStorage(state.list); // 로컬 스토리지에 저장
+    },
+    updateBook: (
+      state,
+      action: PayloadAction<{
+        id: string;
+        volumeInfo: Partial<BookData["volumeInfo"]>;
+      }>
+    ) => {
+      const { id, volumeInfo } = action.payload;
+      const bookIndex = state.list.findIndex((book) => book.id === id);
+
+      if (bookIndex !== -1) {
+        state.list[bookIndex].volumeInfo = {
+          ...state.list[bookIndex].volumeInfo,
+          ...volumeInfo,
+        };
+        saveBooksToLocalStorage(state.list); // 로컬 스토리지에 저장
+      }
     },
   },
 });
 
-export const { setBooks, clearBooks } = booksSlice.actions;
+// 로컬 스토리지에 상태 저장
+const saveBooksToLocalStorage = (books: BookData[]) => {
+  try {
+    localStorage.setItem("books", JSON.stringify(books));
+  } catch (error) {
+    console.error("Failed to save books to local storage", error);
+  }
+};
+
+// Redux actions & reducer export
+export const { setBooks, addBook, removeBook, updateBook } = booksSlice.actions;
 export default booksSlice.reducer;
