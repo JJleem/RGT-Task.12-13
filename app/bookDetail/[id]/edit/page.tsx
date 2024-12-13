@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { updateSale } from "@/store/saleSlice";
 import { updateBook } from "@/store/booksSlice";
+import Image from "next/image";
 
 const BookDetail = ({ params }: { params: Promise<{ id: string }> }) => {
   const [id, setId] = useState<string | null>(null);
@@ -135,7 +136,7 @@ const BookDetail = ({ params }: { params: Promise<{ id: string }> }) => {
         <p className="text-center text-blue-500">이미지를 업로드 중입니다...</p>
       ) : (
         editableBook.imageLinks?.thumbnail && (
-          <img
+          <Image
             src={editableBook.imageLinks.thumbnail}
             alt="Preview"
             className="w-[400px] h-[600px] shadow-lg"

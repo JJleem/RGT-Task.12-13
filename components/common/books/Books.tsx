@@ -9,6 +9,7 @@ import { RootState } from "@/store/store";
 import { setBooks } from "@/store/booksSlice";
 import { useRouter } from "next/navigation";
 import { addSale } from "@/store/saleSlice";
+import Image from "next/image";
 
 interface BookData {
   id?: string;
@@ -129,13 +130,13 @@ const Books: React.FC<BooksProps> = ({ filterBooks }: BooksProps) => {
                   className="w-[100%] shadow-xl rounded-md flex flex-row p-6 gap-4 border border-AlmondPeach"
                 >
                   {book.volumeInfo.imageLinks?.thumbnail ? (
-                    <img
+                    <Image
                       className="w-[128px] h-[198px] object-cover shadow-xl"
                       src={book.volumeInfo.imageLinks.thumbnail}
                       alt={`${book.volumeInfo.title} cover`}
                     />
                   ) : (
-                    <img
+                    <Image
                       className="w-[128px] h-[198px] object-contain shadow-xl"
                       src={
                         "https://cdn-icons-png.flaticon.com/512/85/85488.png"

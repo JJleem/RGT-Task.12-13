@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { removeBook } from "@/store/booksSlice";
 import { removeSale } from "@/store/saleSlice";
+import Image from "next/image";
 
 const BookDetail = ({ params }: { params: Promise<{ id: string }> }) => {
   const [id, setId] = useState<string | null>(null);
@@ -56,7 +57,7 @@ const BookDetail = ({ params }: { params: Promise<{ id: string }> }) => {
     <div className="w-full sm:h-[calc(100vh-130px)] flex flex-col items-center gap-12 2xl:pl-[240px] 2xl:pr-[240px] xl:pl-[160px] xl:pr-[160px] pb-[150px] lg:pl-[120px] lg:pr-[120px] xxs:pl-[24px] xxs:pr-[24px] overflow-x-hidden relative mt-12">
       <div className="flex sm:flex-row xs:flex-col gap-10 ">
         {book.volumeInfo.imageLinks?.thumbnail && (
-          <img
+          <Image
             className="w-[400px] h-[600px] shadow-lg"
             src={book.volumeInfo.imageLinks.thumbnail}
             alt={`${book.volumeInfo.title} cover`}
