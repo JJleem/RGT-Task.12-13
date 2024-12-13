@@ -80,7 +80,7 @@ const Books: React.FC<BooksProps> = ({ filterBooks }: BooksProps) => {
     } else if (isbns.length > 0) {
       fetchBooks(isbns);
     }
-  }, [isbns]);
+  }, [isbns, dispatch, fetchBooks]);
 
   // Pagination 계산
   const totalPages = Math.ceil(filterBooks.length / booksPerPage);
