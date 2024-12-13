@@ -1,8 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface BookData {
+  id?: string;
   volumeInfo: {
     title: string;
+    description?: string;
     subtitle?: string;
     authors?: string[];
     publisher?: string;
@@ -10,6 +12,10 @@ interface BookData {
     imageLinks?: {
       thumbnail: string;
     };
+    pageCount?: number;
+    printType?: string;
+    categories?: string[];
+    language?: string;
   };
 }
 
