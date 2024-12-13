@@ -13,7 +13,7 @@ const loadFromLocalStorage = () => {
   return [];
 };
 
-interface Sale {
+export interface Sale {
   id: string;
   salesCount: number; // 판매 수량
   stockCount: number; // 남은 수량

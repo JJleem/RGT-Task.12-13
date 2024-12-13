@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addSale } from "@/store/saleSlice";
-import { addBook, setBooks } from "@/store/booksSlice";
+import { addBook } from "@/store/booksSlice";
 import { useRouter } from "next/navigation";
 
 const AddBookPage = () => {
@@ -15,7 +15,6 @@ const AddBookPage = () => {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-
   const [salesCount, setSalesCount] = useState<number>(0);
   const [stockCount, setStockCount] = useState<number>(0);
 

@@ -4,14 +4,14 @@ import { RootState } from "@/store/store";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import { removeBook } from "@/store/booksSlice";
-import { removeSale } from "@/store/saleSlice";
+import { BookData, removeBook } from "@/store/booksSlice";
+import { removeSale, Sale } from "@/store/saleSlice";
 import Image from "next/image";
 
 const BookDetail = ({ params }: { params: Promise<{ id: string }> }) => {
   const [id, setId] = useState<string | null>(null);
-  const [book, setBook] = useState<any>(null);
-  const [sale, setSale] = useState<any>(null);
+  const [book, setBook] = useState<BookData | null>(null);
+  const [sale, setSale] = useState<Sale | null>(null);
   const dispatch = useDispatch();
   const books = useSelector((state: RootState) => state.books.list);
   const sales = useSelector((state: RootState) => state.sales.sales);

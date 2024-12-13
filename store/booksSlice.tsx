@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface BookData {
+export interface BookData {
   id?: string;
   volumeInfo: {
     title: string;

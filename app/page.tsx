@@ -1,18 +1,16 @@
 "use client";
-/* eslint-disable @typescript-eslint/no-unused-vars */
 
 import Aside from "@/components/common/aside/Aside";
 import Books from "@/components/common/books/Books";
 import ProfileSection from "@/components/common/profile/ProfileSection";
 import { RootState } from "@/store/store";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
   const books = useSelector((state: RootState) => state.books.list);
   const [searchTerm, setSearchTerm] = useState(""); // 검색어 상태 추가
-
   const filteredBooks = useMemo(() => {
     if (!searchTerm.trim()) return books; // 검색어 없으면 전체 반환
     const search = searchTerm.toLowerCase();

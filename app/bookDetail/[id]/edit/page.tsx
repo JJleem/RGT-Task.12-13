@@ -4,14 +4,14 @@ import { RootState } from "@/store/store";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { updateSale } from "@/store/saleSlice";
-import { updateBook } from "@/store/booksSlice";
+import { Sale, updateSale } from "@/store/saleSlice";
+import { BookData, updateBook } from "@/store/booksSlice";
 import Image from "next/image";
 
 const BookDetail = ({ params }: { params: Promise<{ id: string }> }) => {
   const [id, setId] = useState<string | null>(null);
-  const [book, setBook] = useState<any>(null);
-  const [sale, setSale] = useState<any>(null);
+  const [book, setBook] = useState<BookData | null>(null);
+  const [sale, setSale] = useState<Sale | null>(null);
 
   const books = useSelector((state: RootState) => state.books.list);
   const sales = useSelector((state: RootState) => state.sales.sales);
@@ -19,7 +19,9 @@ const BookDetail = ({ params }: { params: Promise<{ id: string }> }) => {
   const router = useRouter();
 
   // 수정 가능한 상태
-  const [editableBook, setEditableBook] = useState<any>({});
+  const [editableBook, setEditableBook] = useState<
+    Partial<BookData["volumeInfo"]>
+  >({});
   const [salesCount, setSalesCount] = useState<number>(0);
   const [stockCount, setStockCount] = useState<number>(0);
   const [newImage, setNewImage] = useState<File | null>(null);

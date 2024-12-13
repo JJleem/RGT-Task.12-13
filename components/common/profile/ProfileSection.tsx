@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
-import Link from "next/link";
 import React, { useState } from "react";
 
 interface ProfileSectionProps {
