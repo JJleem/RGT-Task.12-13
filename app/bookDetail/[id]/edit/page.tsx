@@ -13,8 +13,8 @@ const BookDetail = ({ params }: { params: Promise<{ id: string }> }) => {
   const [book, setBook] = useState<BookData | null>(null);
   const [sale, setSale] = useState<Sale | null>(null);
 
-  const books = useSelector((state: RootState) => state.books.list);
-  const sales = useSelector((state: RootState) => state.sales.sales);
+  const books = useSelector((state: RootState) => state.books.list || []);
+  const sales = useSelector((state: RootState) => state.sales.sales || []);
 
   const dispatch = useDispatch();
   const router = useRouter();

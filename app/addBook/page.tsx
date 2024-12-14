@@ -21,16 +21,6 @@ const AddBookPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const salesData = localStorage.getItem("sales");
-      if (salesData) {
-        dispatch(setSales(JSON.parse(salesData)));
-      }
-    }
-  }, [dispatch]);
-};
-
   // Cloudinary 이미지 업로드 함수
   const handleImageUpload = async (): Promise<string> => {
     if (!image) return "";

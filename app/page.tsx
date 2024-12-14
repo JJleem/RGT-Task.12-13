@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const books = useSelector((state: RootState) => state.books.list);
+  const books = useSelector((state: RootState) => state.books.list || []);
   const [searchTerm, setSearchTerm] = useState(""); // 검색어 상태 추가
 
   // 검색어에 따라 필터링된 책 목록 계산

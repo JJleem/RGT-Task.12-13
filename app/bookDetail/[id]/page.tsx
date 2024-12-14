@@ -14,8 +14,8 @@ const BookDetail = ({ params }: { params: Promise<{ id: string }> }) => {
   const [sale, setSale] = useState<Sale | null>(null);
 
   const dispatch = useDispatch();
-  const books = useSelector((state: RootState) => state.books.list);
-  const sales = useSelector((state: RootState) => state.sales.sales);
+  const books = useSelector((state: RootState) => state.books.list || []);
+  const sales = useSelector((state: RootState) => state.sales.sales || []);
   const router = useRouter();
 
   // `params` 처리 및 데이터 설정

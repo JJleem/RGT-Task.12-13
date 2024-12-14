@@ -23,9 +23,14 @@ interface BooksState {
   list: BookData[];
 }
 
-// 로컬 스토리지에서 상태 로드
-const loadBooksFromLocalStorage = (): BookData[] => {
-  if (typeof window === "undefined") return []; // 서버에서 실행 시 빈 배열 반환
+// 초기 상태: 빈 배열
+const initialState: BooksState = {
+  list: [],
+};
+
+// 로컬 스토리지에서 상태 로드 함수
+export const loadBooksFromLocalStorage = (): BookData[] => {
+  if (typeof window === "undefined") return []; // 서버 환경에서는 빈 배열 반환
   try {
     const data = localStorage.getItem("books");
     return data ? JSON.parse(data) : [];
@@ -35,8 +40,14 @@ const loadBooksFromLocalStorage = (): BookData[] => {
   }
 };
 
-const initialState: BooksState = {
-  list: loadBooksFromLocalStorage(),
+// 로컬 스토리지에 상태 저장 함수
+const saveBooksToLocalStorage = (books: BookData[]) => {
+  if (typeof window === "undefined") return; // 서버 환경에서는 저장하지 않음
+  try {
+    localStorage.setItem("books", JSON.stringify(books));
+  } catch (error) {
+    console.error("Failed to save books to local storage", error);
+  }
 };
 
 // Redux slice 정의
@@ -46,15 +57,15 @@ const booksSlice = createSlice({
   reducers: {
     setBooks: (state, action: PayloadAction<BookData[]>) => {
       state.list = action.payload;
-      saveBooksToLocalStorage(state.list); // 로컬 스토리지에 저장
+      saveBooksToLocalStorage(state.list);
     },
     addBook: (state, action: PayloadAction<BookData>) => {
       state.list.push(action.payload);
-      saveBooksToLocalStorage(state.list); // 로컬 스토리지에 저장
+      saveBooksToLocalStorage(state.list);
     },
     removeBook: (state, action: PayloadAction<string>) => {
       state.list = state.list.filter((book) => book.id !== action.payload);
-      saveBooksToLocalStorage(state.list); // 로컬 스토리지에 저장
+      saveBooksToLocalStorage(state.list);
     },
     updateBook: (
       state,
@@ -65,26 +76,16 @@ const booksSlice = createSlice({
     ) => {
       const { id, volumeInfo } = action.payload;
       const bookIndex = state.list.findIndex((book) => book.id === id);
-
       if (bookIndex !== -1) {
         state.list[bookIndex].volumeInfo = {
           ...state.list[bookIndex].volumeInfo,
           ...volumeInfo,
         };
-        saveBooksToLocalStorage(state.list); // 로컬 스토리지에 저장
+        saveBooksToLocalStorage(state.list);
       }
     },
   },
 });
-
-// 로컬 스토리지에 상태 저장
-const saveBooksToLocalStorage = (books: BookData[]) => {
-  try {
-    localStorage.setItem("books", JSON.stringify(books));
-  } catch (error) {
-    console.error("Failed to save books to local storage", error);
-  }
-};
 
 // Redux actions & reducer export
 export const { setBooks, addBook, removeBook, updateBook } = booksSlice.actions;

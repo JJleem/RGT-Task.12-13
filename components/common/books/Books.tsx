@@ -30,8 +30,8 @@ interface BooksProps {
 }
 
 const Books: React.FC<BooksProps> = ({ filterBooks }: BooksProps) => {
-  const isbns = useSelector((state: RootState) => state.isbn.list);
-  const sales = useSelector((state: RootState) => state.sales.sales);
+  const isbns = useSelector((state: RootState) => state.isbn.list || []);
+  const sales = useSelector((state: RootState) => state.sales.sales || []);
   const dispatch = useDispatch();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
