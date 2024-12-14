@@ -12,8 +12,10 @@ const BookDetail = ({ params }: { params: Promise<{ id: string }> }) => {
   const [id, setId] = useState<string | null>(null);
   const [book, setBook] = useState<BookData | null>(null);
   const [sale, setSale] = useState<Sale | null>(null);
+
   const books = useSelector((state: RootState) => state.books.list);
   const sales = useSelector((state: RootState) => state.sales.sales);
+
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -45,23 +47,17 @@ const BookDetail = ({ params }: { params: Promise<{ id: string }> }) => {
     });
   }, [params, books, sales]);
 
-  // `localStorage` 업데이트 함수
-  const updateLocalStorage = (updatedBooks: any[]) => {
-    localStorage.setItem("books", JSON.stringify(updatedBooks));
-  };
-
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setNewImage(e.target.files[0]);
 
-      // 이미지 업로드 시작
       setIsUploading(true);
       const formData = new FormData();
       formData.append("file", e.target.files[0]);
       formData.append(
         "upload_preset",
         `${process.env.NEXT_PUBLIC_CLOUDINARY_PRESET}`
-      ); // Cloudinary 등 설정 필요
+      );
 
       try {
         const response = await fetch(
@@ -74,12 +70,12 @@ const BookDetail = ({ params }: { params: Promise<{ id: string }> }) => {
 
         const data = await response.json();
         if (data.secure_url) {
-          setEditableBook((prev: any) => ({
+          setEditableBook((prev) => ({
             ...prev,
             imageLinks: { thumbnail: data.secure_url },
           }));
         } else {
-          alert("이미지 업로드 실패");
+          alert("이미지 업로드 실패. 다시 시도해주세요.");
         }
       } catch (error) {
         console.error("이미지 업로드 중 오류:", error);
@@ -93,11 +89,7 @@ const BookDetail = ({ params }: { params: Promise<{ id: string }> }) => {
   const handleSave = async () => {
     if (!id) return;
 
-    // 책 데이터 업데이트
-    const updatedBooks = books.map((book) =>
-      book.id === id ? { ...book, volumeInfo: editableBook } : book
-    );
-
+    // Redux 상태 업데이트
     dispatch(
       updateBook({
         id,
@@ -105,7 +97,6 @@ const BookDetail = ({ params }: { params: Promise<{ id: string }> }) => {
       })
     );
 
-    // 판매 데이터 업데이트
     dispatch(
       updateSale({
         id,
@@ -114,8 +105,13 @@ const BookDetail = ({ params }: { params: Promise<{ id: string }> }) => {
       })
     );
 
-    // `localStorage` 업데이트
-    updateLocalStorage(updatedBooks);
+    // localStorage 업데이트
+    if (typeof window !== "undefined") {
+      const updatedBooks = books.map((book) =>
+        book.id === id ? { ...book, volumeInfo: editableBook } : book
+      );
+      localStorage.setItem("books", JSON.stringify(updatedBooks));
+    }
 
     alert("수정 사항이 저장되었습니다!");
     router.push(`/bookDetail/${id}`);
@@ -141,6 +137,8 @@ const BookDetail = ({ params }: { params: Promise<{ id: string }> }) => {
             src={editableBook.imageLinks.thumbnail}
             alt="Preview"
             className="w-[400px] h-[600px] shadow-lg"
+            width={400}
+            height={600}
           />
         )
       )}
@@ -151,7 +149,7 @@ const BookDetail = ({ params }: { params: Promise<{ id: string }> }) => {
             type="text"
             value={editableBook.title || ""}
             onChange={(e) =>
-              setEditableBook({ ...editableBook, title: e.target.value })
+              setEditableBook((prev) => ({ ...prev, title: e.target.value }))
             }
             className="border rounded px-2 py-1"
           />
@@ -162,7 +160,7 @@ const BookDetail = ({ params }: { params: Promise<{ id: string }> }) => {
             type="text"
             value={editableBook.subtitle || ""}
             onChange={(e) =>
-              setEditableBook({ ...editableBook, subtitle: e.target.value })
+              setEditableBook((prev) => ({ ...prev, subtitle: e.target.value }))
             }
             className="border rounded px-2 py-1"
           />
@@ -173,12 +171,12 @@ const BookDetail = ({ params }: { params: Promise<{ id: string }> }) => {
             type="text"
             value={editableBook.authors?.join(", ") || ""}
             onChange={(e) =>
-              setEditableBook({
-                ...editableBook,
+              setEditableBook((prev) => ({
+                ...prev,
                 authors: e.target.value
                   .split(",")
                   .map((author) => author.trim()),
-              })
+              }))
             }
             className="border rounded px-2 py-1"
           />

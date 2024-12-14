@@ -2,15 +2,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // 로컬 스토리지에서 초기 상태 가져오기
 const loadFromLocalStorage = () => {
+  if (typeof window === "undefined") return []; // 서버 환경에서는 빈 배열 반환
   try {
     const data = localStorage.getItem("sales");
-    if (data) {
-      return JSON.parse(data);
-    }
+    return data ? JSON.parse(data) : [];
   } catch (error) {
     console.error("Failed to load from local storage", error);
+    return [];
   }
-  return [];
 };
 
 export interface Sale {
@@ -24,7 +23,7 @@ interface SalesState {
 }
 
 const initialState: SalesState = {
-  sales: loadFromLocalStorage(),
+  sales: loadFromLocalStorage(), // 서버 환경에서는 빈 배열 반환
 };
 
 const salesSlice = createSlice({

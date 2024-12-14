@@ -12,6 +12,7 @@ const BookDetail = ({ params }: { params: Promise<{ id: string }> }) => {
   const [id, setId] = useState<string | null>(null);
   const [book, setBook] = useState<BookData | null>(null);
   const [sale, setSale] = useState<Sale | null>(null);
+
   const dispatch = useDispatch();
   const books = useSelector((state: RootState) => state.books.list);
   const sales = useSelector((state: RootState) => state.sales.sales);
@@ -36,11 +37,13 @@ const BookDetail = ({ params }: { params: Promise<{ id: string }> }) => {
     dispatch(removeSale(id));
 
     // localStorage 업데이트
-    const updatedBooks = books.filter((book) => book.id !== id);
-    localStorage.setItem("books", JSON.stringify(updatedBooks));
+    if (typeof window !== "undefined") {
+      const updatedBooks = books.filter((book) => book.id !== id);
+      localStorage.setItem("books", JSON.stringify(updatedBooks));
 
-    const updatedSales = sales.filter((sale) => sale.id !== id);
-    localStorage.setItem("sales", JSON.stringify(updatedSales));
+      const updatedSales = sales.filter((sale) => sale.id !== id);
+      localStorage.setItem("sales", JSON.stringify(updatedSales));
+    }
 
     alert("책이 삭제되었습니다.");
     router.push("/"); // 메인 페이지로 이동
@@ -60,6 +63,9 @@ const BookDetail = ({ params }: { params: Promise<{ id: string }> }) => {
             className="w-[400px] h-[600px] shadow-lg"
             src={book.volumeInfo.imageLinks.thumbnail}
             alt={`${book.volumeInfo.title} cover`}
+            width={400}
+            height={600}
+            unoptimized
           />
         )}
         <div className="flex flex-col gap-4">
@@ -67,13 +73,13 @@ const BookDetail = ({ params }: { params: Promise<{ id: string }> }) => {
             <h1 className="text-2xl font-bold">{book.volumeInfo.title}</h1>
             <div className="flex gap-2">
               <div
-                className=" right-0 rounded-md bg-NauticalBlue px-4 py-2 text-white cursor-pointer"
+                className="right-0 rounded-md bg-NauticalBlue px-4 py-2 text-white cursor-pointer"
                 onClick={() => router.push(`/bookDetail/${book.id}/edit`)}
               >
                 수정하기
               </div>
               <div
-                className=" right-0 rounded-md bg-red-700 px-4 py-2 text-white cursor-pointer"
+                className="right-0 rounded-md bg-red-700 px-4 py-2 text-white cursor-pointer"
                 onClick={handleDelete}
               >
                 삭제하기

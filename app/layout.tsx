@@ -7,7 +7,6 @@ import Footer from "@/components/common/footer/Footer";
 import "./scrollCss.css";
 import { Provider } from "react-redux";
 import { store } from "@/store/store";
-import SyncLocalStorageToRedux from "./SyncLocalStorageToRedux";
 
 interface RootLayoutProps {
   children: ReactNode;
@@ -27,7 +26,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body className="h-auto">
         <Provider store={store}>
           <Header />
-          <SyncLocalStorageToRedux />
           {children}
           <Footer />
         </Provider>
