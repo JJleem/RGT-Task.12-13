@@ -27,7 +27,7 @@
 
 # ✅ 주요 기능
 
-## 책 목록 페이지 구현
+## 1. 책 목록 페이지 구현
 
 ### 1. Google Books API 호출
 
@@ -90,7 +90,7 @@
 
 <br>
 
-## 책 상세 정보 페이지/뷰 구현
+## 2. 책 상세 정보 페이지/뷰 구현
 
 ### 1. 데이터 로드 및 상태 관리
 
@@ -114,7 +114,9 @@
 - 수정 완료 후, Redux의 updateBook 및 updateSale 액션을 통해 상태를 업데이트.
 - 수정된 데이터를 localStorage에도 동기화.
 
-## 책 추가/제거 및 수량 조절 기능
+<br>
+
+## 3. 책 추가/제거 및 수량 조절 기능
 
 ### 1. 사용자 입력 데이터 관리
 
@@ -141,3 +143,65 @@
 
 - dispatch(removeBook(id))와 dispatch(removeSale(id))를 호출하여 Redux 상태에서 책과 판매 데이터를 제거.
 - 책 목록과 판매 데이터를 필터링하여 삭제된 데이터를 제외한 새 목록을 localStorage 에 저장.
+
+<br>
+
+```
+rgt-task
+├─ .gitignore
+├─ app
+│  ├─ addBook
+│  │  └─ page.tsx
+│  ├─ api
+│  │  └─ books
+│  │     └─ route.ts
+│  ├─ bookDetail
+│  │  └─ [id]
+│  │     ├─ edit
+│  │     │  └─ page.tsx
+│  │     └─ page.tsx
+│  ├─ favicon.ico
+│  ├─ globals.css
+│  ├─ layout.tsx
+│  ├─ LocalBooksOnCLient.tsx
+│  ├─ page.tsx
+│  └─ scrollCss.css
+├─ assets
+│  └─ icon
+│     ├─ arrow_Peach.png
+│     ├─ search.svg
+│     └─ settings.png
+├─ components
+│  └─ common
+│     ├─ aside
+│     │  └─ Aside.tsx
+│     ├─ books
+│     │  ├─ Books.tsx
+│     │  └─ BooksSpinner.css
+│     ├─ footer
+│     │  └─ Footer.tsx
+│     ├─ header
+│     │  └─ Header.tsx
+│     └─ profile
+│        └─ ProfileSection.tsx
+├─ eslint.config.mjs
+├─ next.config.ts
+├─ package-lock.json
+├─ package.json
+├─ postcss.config.mjs
+├─ public
+│  ├─ file.svg
+│  ├─ globe.svg
+│  ├─ next.svg
+│  ├─ vercel.svg
+│  └─ window.svg
+├─ store
+│  ├─ booksSlice.tsx
+│  ├─ isbnSlice.tsx
+│  ├─ saleSlice.tsx
+│  ├─ store.tsx
+│  └─ toggleSlice.tsx
+├─ tailwind.config.ts
+└─ tsconfig.json
+
+```
