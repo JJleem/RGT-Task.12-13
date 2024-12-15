@@ -1,36 +1,26 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📱 RGT
 
-## Getting Started
+- ✏️ Web front-end S/W 개발 직무 면접 전 과제
+- ⏱️ 프로젝트 기간: `2024/12/13 ~ 2023/12/15`
+- ⛓️ 배포 링크: [프로젝트 결과물](https://rgt-task-12-13-mke9-livid.vercel.app/)
 
-First, run the development server:
+<br />
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+# 📝 Routing 구조
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. "/" : 책 목록 페이지 구현
+2. "/bookDetail/[id]" : 책 상세 정보 페이지/뷰 구현
+3. "/bookDetail/[id]/edit" : 책 정보 수정 페이지 구현
+4. "/addBook" : 책 추가 페이지 구현
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+<br />
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# 🎩 Tech Stack
 
-## Learn More
+## 📤 FrontEnd
 
-To learn more about Next.js, take a look at the following resources:
+|                                                                                    TypeScript                                                                                     |                                                                                       Next                                                                                        |                                                                                     Redux                                                                                     |                                                                                     TailwindCss                                                                                     |
+| :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/typescript/3178C6" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/nextdotjs/#000000" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/redux/#764ABC" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/tailwindcss/#06B6D4" alt="icon" width="75" height="75" /></div> |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+<br />
