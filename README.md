@@ -62,41 +62,82 @@
 # 6. Pagination 구현
 
 - filterBooks.length와 booksPerPage로 총 페이지 수(totalPages)를 계산합니다.
-- 현재 페이지(currentPage)와 booksPerPage에 따라 currentBooks를 슬라이싱하여 보여줄 데이터를 추출합니다. -이전/다음 버튼을 통해 페이지를 전환하며, 페이지 이동에 따른 상태 업데이트를 처리합니다.
+
+- 현재 페이지(currentPage)와 booksPerPage에 따라 currentBooks를 슬라이싱하여 보여줄 데이터를 추출합니다.
+
+- 이전/다음 버튼을 통해 페이지를 전환하며, 페이지 이동에 따른 상태 업데이트를 처리합니다.
 
 <br>
 
-```bash
-  // API 호출 및 로컬 스토리지 저장
-  const fetchBooks = useCallback(
-    async (isbnList: string[]) => {
-      setLoading(true);
-      setError(null);
+# 7. 목록 UI 구현
 
-      try {
-        const promises = isbnList.map(async (isbn) => {
-          const response = await fetch(`/api/books?isbn=${isbn}`);
-          if (!response.ok) {
-            throw new Error(`Error fetching book for ISBN: ${isbn}`);
-          }
-          const data = await response.json();
-          return data;
-        });
+- 각 책 데이터를 map 함수로 순회하며, Tailwind CSS를 활용해 반응형 그리드 레이아웃으로 책 목록을 표시합니다.
 
-        const results = await Promise.all(promises);
-        const flattenedBooks = results.flat();
+- 책 표지, 제목, 서브 타이틀, 저자, 출판사, 출판일자, 설명, 판매량, 남은 수량 등의 정보를 렌더링합니다.
 
-        dispatch(setBooks(flattenedBooks));
-        saveBooksToLocalStorage(flattenedBooks);
-      } catch (err: any) {
-        console.error(err);
-        setError("Failed to fetch book data. Please try again.");
-      } finally {
-        setLoading(false);
-      }
-    },
-    [dispatch, saveBooksToLocalStorage]
-  );
-```
+- router.push를 이용해 상세 페이지로 이동할 수 있는 버튼을 구현합니다.
 
 <br>
+
+# 8. 검색어 입력 처리
+
+- 사용자가 입력한 검색어(searchTerm)를 toLowerCase로 변환하여 대소문자 구분 없이 필터링을 수행합니다.
+- 책 제목(title)과 저자(authors)를 검색어와 비교합니다.
+- 저자 정보가 없는 경우 || ""로 기본값을 처리합니다.
+- 검색어가 비어 있거나 공백만 포함된 경우, 전체 책 목록(books)을 반환합니다.
+- 검색어가 포함된 책 제목 또는 저자를 기준으로 필터링된 결과를 반환합니다.
+- useMemo를 사용하여 searchTerm나 books가 변경될 때만 필터링을 재계산합니다. 이로 인해 불필요한 렌더링을 방지합니다.
+
+<br>
+
+## 책 상세 정보 페이지/뷰 구현
+
+# 1. 데이터 로드 및 상태 관리
+
+- params로 전달된 id 값을 기반으로 Redux에서 책(book)과 판매 정보(sale) 데이터를 로드합니다.
+- useState로 각종 상태를 관리:
+  - editableBook: 수정 가능한 책 정보.
+  - salesCount & stockCount: 판매량 및 재고 수량.
+  - newImage & isUploading: 이미지 업로드 상태.
+
+<br>
+
+# 2. 책 데이터 수정
+
+- 사용자가 책 제목, 서브 타이틀, 저자, 판매량, 재고 수량을 수정 가능.
+- 이미지 파일을 업로드하여 Cloudinary API를 통해 저장 후, 썸네일 URL 업데이트.
+
+<br>
+
+# 3. Redux 및 로컬 스토리지 업데이트
+
+- 수정 완료 후, Redux의 updateBook 및 updateSale 액션을 통해 상태를 업데이트.
+- 수정된 데이터를 localStorage에도 동기화.
+
+## 책 추가/제거 및 수량 조절 기능
+
+# 1. 사용자 입력 데이터 관리
+
+- useState를 사용해 책 정보 및 판매 데이터를 상태로 관리.
+  - 책 정보: 제목, 서브타이틀, 저자, 출판사, 출판일, 설명, 이미지.
+  - 판매 데이터: 판매 수량, 남은 수량.
+
+<br>
+
+# 2. 이미지 업로드
+
+- 사용자가 이미지를 업로드하면 Cloudinary API를 통해 서버에 업로드한 후, 반환된 URL을 책 데이터에 추가.
+- 업로드 진행 상태를 isUploading 상태로 관리하여 중복 요청 방지 및 사용자에게 상태를 표시.
+
+<br>
+
+# 3. Redux 상태 업데이트
+
+- 입력된 데이터를 기반으로 Redux의 addBook 및 addSale 액션을 호출하여 새로운 책과 판매 데이터를 전역 상태에 추가.
+
+<br>
+
+# 4. 삭제 기능
+
+- dispatch(removeBook(id))와 dispatch(removeSale(id))를 호출하여 Redux 상태에서 책과 판매 데이터를 제거.
+- 책 목록과 판매 데이터를 필터링하여 삭제된 데이터를 제외한 새 목록을 localStorage 에 저장.
